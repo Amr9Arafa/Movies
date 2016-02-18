@@ -48,12 +48,16 @@ public class MovieAdapter extends ArrayAdapter<MovieDetails> {
 
 
 
+        /*Picasso.with(getContext())
+                .load(movie.getPosterPath())
+                .resize(185, 260) //testing new things
+
+                .into(myImageView);*/
+
         Picasso.with(getContext())
                 .load(movie.getPosterPath())
-                .resize(100, 100) //testing new things
-                .centerCrop()
+                .fit()
                 .into(myImageView);
-
 
         return myImageView;
     }

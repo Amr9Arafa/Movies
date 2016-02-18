@@ -1,6 +1,7 @@
 package com.example.amrarafa.movies;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.volley.Request;
@@ -48,6 +50,20 @@ public class MovieFragment extends Fragment {
         mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieDetails>());
         GridView gridView=(GridView) rootView.findViewById(R.id.gridView);
         gridView.setAdapter(mMovieAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                MovieDetails movie =(MovieDetails)parent.getItemAtPosition(position);
+                Intent intent=new Intent(getActivity(),DetailActivity.class);
+                intent.putExtra("movieDetail",new MovieDetails(movie.getPosterPath(),movie.getTitle(),movie.getReleaseDate(),movie.getVoteAverage(),
+                        movie.getOverview(),movie.getId()));
+
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -100,7 +116,7 @@ public class MovieFragment extends Fragment {
             final String releaseDate="release_date";
             final String voteAverage="vote_average";
             final String overview="overview";
-            int id;
+            String id;
 
 
 
@@ -115,9 +131,11 @@ public class MovieFragment extends Fragment {
                     JSONObject jj= jsonResult.getJSONObject(i);
                     poster_path=jj.getString(poster);
                     // poster_path=+poster_path;
-                    id=jj.getInt("id");
+                    id=String.valueOf(jj.getInt("id"));
+
+
                     moviesDetails.add(new MovieDetails("http://image.tmdb.org/t/p/w185/"+poster_path,jj.getString(releaseDate),
-                            jj.getString(releaseDate),jj.getString(releaseDate),jj.getString(releaseDate),jj.getInt("id")));
+                            jj.getString(title),jj.getString(voteAverage),jj.getString(overview),id));
                    // Log.w("testing id", id + "\n");
                 }
 
