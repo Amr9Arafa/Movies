@@ -134,8 +134,8 @@ public class MovieFragment extends Fragment {
                     id=String.valueOf(jj.getInt("id"));
 
 
-                    moviesDetails.add(new MovieDetails("http://image.tmdb.org/t/p/w185/"+poster_path,jj.getString(releaseDate),
-                            jj.getString(title),jj.getString(voteAverage),jj.getString(overview),id));
+                    moviesDetails.add(new MovieDetails("http://image.tmdb.org/t/p/w185/"+poster_path,jj.getString(title),
+                            jj.getString(releaseDate),jj.getString(voteAverage),jj.getString(overview),id));
                    // Log.w("testing id", id + "\n");
                 }
 
