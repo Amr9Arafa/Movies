@@ -30,7 +30,7 @@ public class DetailActivity extends AppCompatActivity {
         tv=(TextView)findViewById(R.id.tvForTesting);
         Bundle data = getIntent().getExtras();
         MovieDetails movie =(MovieDetails)data.getParcelable("movieDetail");
-        tv.setText(movie.getReleaseDate());
+        tv.setText(movie.getTitle());
 
 
 
