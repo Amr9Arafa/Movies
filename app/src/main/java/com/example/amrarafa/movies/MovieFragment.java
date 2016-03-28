@@ -2,6 +2,8 @@ package com.example.amrarafa.movies;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.amrarafa.movies.data.MovieContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 
 public class MovieFragment extends Fragment {
 
-    MovieAdapter mMovieAdapter;
+    MovieCursorAdapter mMovieAdapter;
 
 
     public MovieFragment() {
@@ -47,23 +50,27 @@ public class MovieFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieDetails>());
+        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+
+        Cursor cursor= getActivity().getContentResolver().query(uri,null,null,null,null);
+
+        mMovieAdapter = new MovieCursorAdapter(getActivity(),cursor,0);
         GridView gridView=(GridView) rootView.findViewById(R.id.gridView);
         gridView.setAdapter(mMovieAdapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                MovieDetails movie =(MovieDetails)parent.getItemAtPosition(position);
-                Intent intent=new Intent(getActivity(),DetailActivity.class);
-                intent.putExtra("movieDetail",new MovieDetails(movie.getPosterPath(),movie.getTitle(),movie.getReleaseDate(),movie.getVoteAverage(),
-                        movie.getOverview(),movie.getId()));
-
-                startActivity(intent);
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//                MovieDetails movie =(MovieDetails)parent.getItemAtPosition(position);
+//                Intent intent=new Intent(getActivity(),DetailActivity.class);
+//                intent.putExtra("movieDetail",new MovieDetails(movie.getPosterPath(),movie.getTitle(),movie.getReleaseDate(),movie.getVoteAverage(),
+//                        movie.getOverview(),movie.getId()));
+//
+//                startActivity(intent);
+//            }
+//        });
 
         return rootView;
     }
@@ -83,8 +90,9 @@ public class MovieFragment extends Fragment {
                     public void onResponse(JSONObject response) {
 
 
-                        ParsingTask ps =new ParsingTask();
-                        ps.execute(response);
+                        ParsingTask ps =new ParsingTask(getActivity());
+                        ps.execute();
+
 
                         Log.w("Testing",response.toString());
                     }
@@ -101,79 +109,6 @@ public class MovieFragment extends Fragment {
 
     }
 
-    public class ParsingTask extends AsyncTask<JSONObject, Void, ArrayList<MovieDetails>> {
 
-        @Override
-        protected ArrayList<MovieDetails> doInBackground(JSONObject... params) {
-
-
-            ArrayList<MovieDetails> moviesDetails= new ArrayList<MovieDetails>();
-
-            //	String[] movieLink;
-
-            final String poster="poster_path";
-            final String title="original_title";
-            final String releaseDate="release_date";
-            final String voteAverage="vote_average";
-            final String overview="overview";
-            String id;
-
-
-
-            String poster_path="";
-
-            try
-            {
-                JSONArray jsonResult = params[0].getJSONArray("results");
-
-                for(int i=0;i<jsonResult.length();i++){
-
-                    JSONObject jj= jsonResult.getJSONObject(i);
-                    poster_path=jj.getString(poster);
-                    // poster_path=+poster_path;
-                    id=String.valueOf(jj.getInt("id"));
-
-
-                    moviesDetails.add(new MovieDetails("http://image.tmdb.org/t/p/w185/"+poster_path,jj.getString(title),
-                            jj.getString(releaseDate),jj.getString(voteAverage),jj.getString(overview),id));
-                   // Log.w("testing id", id + "\n");
-                }
-
-
-                // movieLink[0] = jj.getString(poster);
-
-                //updateUI(movieLink);
-
-                //Toast.makeText(getActivity(), poster, Toast.LENGTH_LONG).show();
-
-                //  Log.w("Testing",movieLink[0]);
-
-
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-
-            // TODO Auto-generated method stub
-            return moviesDetails;
-        }
-
-
-        @Override
-        protected void onPostExecute(ArrayList<MovieDetails> movieDetails) {
-
-            if(movieDetails!=null){
-                mMovieAdapter.clear();
-                for (MovieDetails movieItem : movieDetails){
-                    mMovieAdapter.add(movieItem);
-                }
-            }
-
-        }
-
-
-
-    }
 
 }

@@ -22,9 +22,6 @@ public class MovieAdapter extends ArrayAdapter<MovieDetails> {
         // TODO Auto-generated constructor stub
     }
 
-    public MovieAdapter(Context context, int resource) {
-        super(context, resource);
-    }
 
     @Override
     public View getView(int position, View recycled, ViewGroup container) {

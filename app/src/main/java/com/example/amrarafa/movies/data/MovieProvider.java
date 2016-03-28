@@ -299,7 +299,7 @@ public class MovieProvider extends ContentProvider {
                         selectionArgs);
                 break;
             case FAVOURITE:
-                rowsUpdated=db.update(MovieContract.Favourite.TABLE_NAME,values,selection,
+                rowsUpdated=db.update(MovieContract.Favourite.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -311,6 +311,54 @@ public class MovieProvider extends ContentProvider {
         return rowsUpdated;
     }
 
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int returnCount = 0;
+
+        switch (match) {
+            case MOST_POPULAR: {
+                db.beginTransaction();
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(MovieContract.MostPopular.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+
+            case HIGHEST_RATED: {
+                db.beginTransaction();
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(MovieContract.HighestRated.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                break;
+            }
+
+
+            default:
+                return super.bulkInsert(uri, values);
+        }
+
+        return returnCount;
+    }
 
 
 
