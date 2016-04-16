@@ -26,7 +26,7 @@ public class MoviesDbHelper extends SQLiteOpenHelper{
 
         final String SQL_CREATE_MOST_POPULAR_TABLE = "CREATE TABLE " + MostPopular.TABLE_NAME + " (" +
                 MostPopular._ID + " INTEGER PRIMARY KEY," +
-                MostPopular.COLUMN_ID + " TEXT UNIQUE NOT NULL, " +
+                MostPopular.COLUMN_ID + " INTEGER NOT NULL, " +
                 MostPopular.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
                 MostPopular.COLUMN_POSTER_PATH + "  TEXT NOT NULL, " +
                 MostPopular.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +

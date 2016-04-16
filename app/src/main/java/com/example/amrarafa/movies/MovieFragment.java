@@ -4,9 +4,10 @@ package com.example.amrarafa.movies;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,14 +23,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.amrarafa.movies.data.MovieContract;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import android.support.v4.app.LoaderManager;
+
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
+public class MovieFragment extends android.support.v4.app.Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-public class MovieFragment extends Fragment {
+    private static final int MOVIE_LOADER = 1;
 
     MovieCursorAdapter mMovieAdapter;
 
@@ -50,13 +51,33 @@ public class MovieFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+//        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+//
+//        Cursor cursor= getActivity().getContentResolver().query(uri,null,null,null,null);
 
-        Cursor cursor= getActivity().getContentResolver().query(uri,null,null,null,null);
-
-        mMovieAdapter = new MovieCursorAdapter(getActivity(),cursor,0);
+        mMovieAdapter = new MovieCursorAdapter(getActivity(),null,0);
         GridView gridView=(GridView) rootView.findViewById(R.id.gridView);
         gridView.setAdapter(mMovieAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
+
+                Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
+
+                if (cursor != null) {
+
+                    Intent intent=new Intent(getActivity(),DetailActivity.class);
+                    Uri uri = MovieContract.MostPopular.buildIdUri(cursor.getLong(cursor.getColumnIndex(
+                            MovieContract.MostPopular.COLUMN_ID
+                    )));
+                    intent.setData(uri);
+
+                    startActivity(intent);
+                }
+
+            }
+        });
 
 //        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -75,6 +96,37 @@ public class MovieFragment extends Fragment {
         return rootView;
     }
 
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+
+        return new CursorLoader(getActivity(),
+                uri,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+        mMovieAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+        mMovieAdapter.swapCursor(null);
+    }
+
+
     void fetchUrl(String movieListType){
 
         RequestQueue requestQueue;
@@ -91,7 +143,7 @@ public class MovieFragment extends Fragment {
 
 
                         ParsingTask ps =new ParsingTask(getActivity());
-                        ps.execute();
+                        ps.execute(response);
 
 
                         Log.w("Testing",response.toString());
@@ -108,6 +160,8 @@ public class MovieFragment extends Fragment {
         Volley.newRequestQueue(getActivity()).add(jsObjRequest);
 
     }
+
+
 
 
 

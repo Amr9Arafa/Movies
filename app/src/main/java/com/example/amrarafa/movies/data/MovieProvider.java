@@ -62,11 +62,9 @@ public class MovieProvider extends ContentProvider {
 
     private Cursor getHighestRatedById(Uri uri, String[] projection, String sortOrder) {
 
-
         String id = MovieContract.HighestRated.getIdUri(uri);
         String[] selectionArgs;
         String selection;
-
 
         selection = sHighestRatedSelection;
         selectionArgs = new String[]{id};

@@ -16,7 +16,7 @@ import java.util.Vector;
 /**
  * Created by amr arafa on 3/28/2016.
  */
-public class ParsingTask extends AsyncTask<JSONObject, Void, ArrayList<MovieDetails>> {
+public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
 
 
     private final Context mContext;
@@ -26,19 +26,14 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, ArrayList<MovieDeta
     }
 
     @Override
-    protected ArrayList<MovieDetails> doInBackground(JSONObject... params) {
-
-
-        ArrayList<MovieDetails> moviesDetails= new ArrayList<MovieDetails>();
-
-        //	String[] movieLink;
+    protected Void doInBackground(JSONObject... params) {
 
         final String poster="poster_path";
         final String title="original_title";
         final String releaseDate="release_date";
         final String voteAverage="vote_average";
         final String overview="overview";
-        String id;
+        int id;
 
 
 
@@ -55,7 +50,7 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, ArrayList<MovieDeta
 
                 JSONObject jj= jsonResult.getJSONObject(i);
                 poster_path=jj.getString(poster);
-                id=String.valueOf(jj.getInt("id"));
+                id=jj.getInt("id");
 
 
                 ContentValues movieValues = new ContentValues();
@@ -85,28 +80,14 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, ArrayList<MovieDeta
             }
 
 
-            // movieLink[0] = jj.getString(poster);
 
-            //updateUI(movieLink);
-
-            //Toast.makeText(getActivity(), poster, Toast.LENGTH_LONG).show();
-
-            //  Log.w("Testing",movieLink[0]);
 
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-
-        // TODO Auto-generated method stub
-        return moviesDetails;
+        return null;
     }
-
-
-
-
-
 
 }

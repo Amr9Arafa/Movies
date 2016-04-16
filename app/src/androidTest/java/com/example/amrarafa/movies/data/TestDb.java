@@ -1,5 +1,6 @@
 package com.example.amrarafa.movies.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -53,7 +54,7 @@ public class TestDb extends AndroidTestCase {
                 tableNameHashSet.isEmpty());
 
         // now, do our tables contain the correct columns?
-        c = db.rawQuery("PRAGMA table_info(" + MovieContract.HighestRated.TABLE_NAME + ")",
+        c = db.rawQuery("PRAGMA table_info(" + MovieContract.MostPopular.TABLE_NAME + ")",
                 null);
 
         assertTrue("Error: This means that we were unable to query the database for table information.",
@@ -75,9 +76,51 @@ public class TestDb extends AndroidTestCase {
 
         // if this fails, it means that your database doesn't contain all of the required location
         // entry columns
-     //   assertTrue("Error: The database doesn't contain all of the required location entry columns",
-      //          locationColumnHashSet.isEmpty());
+        assertTrue("Error: The database doesn't contain all of the required location entry columns",
+              locationColumnHashSet.isEmpty());
         db.close();
     }
+
+    public void testMostPopularTable(){
+
+
+        MoviesDbHelper dbHelper = new MoviesDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // Second Step: Create ContentValues of what you want to insert
+        // (you can use the createNorthPoleLocationValues if you wish)
+        ContentValues testValues = TestUtilities.createMostPopularValues();
+
+        // Third Step: Insert ContentValues into database and get a row ID back
+        long locationRowId;
+        locationRowId = db.insert(MovieContract.MostPopular.TABLE_NAME, null, testValues);
+
+        // Verify we got a row back.
+        assertTrue(locationRowId != -1);
+
+        Cursor cursor = db.query(
+                MovieContract.MostPopular.TABLE_NAME,  // Table to Query
+                null, // all columns
+                null, // Columns for the "where" clause
+                null, // Values for the "where" clause
+                null, // columns to group by
+                null, // columns to filter by row groups
+                null // sort order
+        );
+
+        // Move the cursor to a valid database row and check to see if we got any records back
+        // from the query
+       assertTrue( "Error: No Records returned from Most popular query", cursor.moveToFirst() );
+
+        cursor.close();
+        db.close();
+
+
+
+
+    }
+
+
+
 
 }

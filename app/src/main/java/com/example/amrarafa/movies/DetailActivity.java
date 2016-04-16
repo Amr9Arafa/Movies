@@ -1,6 +1,7 @@
 package com.example.amrarafa.movies;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.amrarafa.movies.data.MovieContract;
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView tv;
@@ -20,17 +23,29 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Intent intent=this.getIntent();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
 
-
         tv=(TextView)findViewById(R.id.tvForTesting);
-        Bundle data = getIntent().getExtras();
-        MovieDetails movie =(MovieDetails)data.getParcelable("movieDetail");
-        tv.setText(movie.getTitle());
+
+
+        if (intent!=null){
+
+            Cursor cursor=this.getContentResolver().query(intent.getData(),null,null,null,null);
+
+           // int data =cursor.getInt(cursor.getColumnIndex(MovieContract.MostPopular.COLUMN_POSTER_PATH));
+          //  tv.setText(data);
+
+        }
+
+
+     //   String data = getIntent().getDataString();
+       // tv.setText(data);
 
 
 
@@ -46,6 +61,7 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
 
 
 
