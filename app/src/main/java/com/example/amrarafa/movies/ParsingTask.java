@@ -3,6 +3,7 @@ package com.example.amrarafa.movies;
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.amrarafa.movies.data.MovieContract;
 
@@ -46,25 +47,25 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
             Vector<ContentValues> cVVector = new Vector<ContentValues>(jsonResult.length());
 
 
-            for(int i=0;i<jsonResult.length();i++){
+            for(int i=0;i<jsonResult.length();i++) {
 
-                JSONObject jj= jsonResult.getJSONObject(i);
-                poster_path=jj.getString(poster);
-                id=jj.getInt("id");
+                JSONObject jj = jsonResult.getJSONObject(i);
+                poster_path = jj.getString(poster);
+                id = jj.getInt("id");
 
 
                 ContentValues movieValues = new ContentValues();
 
-                movieValues.put(MovieContract.MostPopular.COLUMN_POSTER_PATH,"http://image.tmdb.org/t/p/w185/"+poster_path);
-                movieValues.put(MovieContract.MostPopular.COLUMN_ID,id);
-                movieValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW,jj.getString(overview));
-                movieValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE,jj.getString(releaseDate));
-                movieValues.put(MovieContract.MostPopular.COLUMN_TITLE,jj.getString(title));
+                movieValues.put(MovieContract.MostPopular.COLUMN_POSTER_PATH, "http://image.tmdb.org/t/p/w185/" + poster_path);
+                movieValues.put(MovieContract.MostPopular.COLUMN_ID, id);
+                movieValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW, jj.getString(overview));
+                movieValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE, jj.getString(releaseDate));
+                movieValues.put(MovieContract.MostPopular.COLUMN_TITLE, jj.getString(title));
                 movieValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, voteAverage);
 
 
                 cVVector.add(movieValues);
-
+            }
 
                 int inserted = 0;
                 // add to database
@@ -76,12 +77,9 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
                 }
 
 
+                Log.d("hello testing", "FetchWeatherTask Complete. " + inserted + " Inserted");
+
                 // Log.w("testing id", id + "\n");
-            }
-
-
-
-
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block

@@ -12,7 +12,7 @@ import com.example.amrarafa.movies.data.MovieContract.Favourite;
  */
 public class MoviesDbHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "movies.db";
 
