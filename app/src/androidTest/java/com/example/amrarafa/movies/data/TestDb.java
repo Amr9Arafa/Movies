@@ -3,7 +3,9 @@ package com.example.amrarafa.movies.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import java.util.HashSet;
 
@@ -110,14 +112,70 @@ public class TestDb extends AndroidTestCase {
 
         // Move the cursor to a valid database row and check to see if we got any records back
         // from the query
-       assertTrue( "Error: No Records returned from Most popular query", cursor.moveToFirst() );
+       assertTrue("Error: No Records returned from Most popular query", cursor.moveToFirst());
 
         cursor.close();
+
+
+
+
+
+
+
+
+
+        ContentValues realTestValues = TestUtilities.createRealMostPopularValues();
+
+        // Third Step: Insert ContentValues into database and get a row ID back
+        long locationRowId1;
+        locationRowId1 = db.insert(MovieContract.MostPopular.TABLE_NAME, null, realTestValues);
+
+        assertTrue(locationRowId1 != -1);
+
+        Uri uri= MovieContract.MostPopular.buildIdUri(209112L);
+
+        Cursor providerCursor= mContext.getContentResolver().query(uri, null, null, null, null);
+
+        assertTrue("Error: No Records returned from Most popular query", (providerCursor.moveToFirst())
+                && (providerCursor.getCount() >= 1)
+                && (providerCursor!= null));
+
+        String id=providerCursor.getString(providerCursor.getColumnIndex(MovieContract.MostPopular
+                .COLUMN_POSTER_PATH));
+
+        Log.d("hello yalla testing", id);
+
+//        String[] selectionArgs;
+//
+//         String sMostPopularSelection =
+//                MovieContract.MostPopular.TABLE_NAME +
+//                        "." + MovieContract.MostPopular.COLUMN_ID + " = ? ";
+//
+//        selectionArgs = new String[]{Long.toString(209112L)};
+//
+//        Cursor realCursor = db.query(
+//                MovieContract.MostPopular.TABLE_NAME,
+//                null,
+//                sMostPopularSelection,
+//                selectionArgs,
+//                null,
+//                null,
+//                null);
+//
+//
+//        realCursor.moveToNext();
+//       int id1=realCursor.getInt (realCursor.getColumnIndex(MovieContract.MostPopular
+//                .COLUMN_ID));
+//
+//        Log.d("hello yalla testing",String.valueOf(id1));
+//
+//
+//        assertTrue("Error: No Records returned from Most popular query", (realCursor.moveToFirst())
+//                && (realCursor.getCount() >= 1)
+//                && (realCursor != null));
+//        realCursor.close();
+        providerCursor.close();
         db.close();
-
-
-
-
     }
 
 

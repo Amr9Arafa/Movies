@@ -61,7 +61,7 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
                 movieValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW, jj.getString(overview));
                 movieValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE, jj.getString(releaseDate));
                 movieValues.put(MovieContract.MostPopular.COLUMN_TITLE, jj.getString(title));
-                movieValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, voteAverage);
+                movieValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, jj.getDouble(voteAverage));
 
 
                 cVVector.add(movieValues);

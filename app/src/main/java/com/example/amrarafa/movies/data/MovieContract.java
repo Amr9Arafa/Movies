@@ -54,8 +54,8 @@ public class MovieContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static String getIdUri(Uri uri) {
-            return uri.getPathSegments().get(1);
+        public static Long getIdUri(Uri uri) {
+            return Long.parseLong(uri.getPathSegments().get(1));
         }
 
 

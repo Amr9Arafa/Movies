@@ -24,6 +24,24 @@ public class TestUtilities extends AndroidTestCase {
         return testValues;
     }
 
+    static ContentValues createRealMostPopularValues() {
+        // Create a new map of values, where column names are the keys
+        ContentValues testValues = new ContentValues();
+        testValues.put(MovieContract.MostPopular.COLUMN_ID, "209112");
+        testValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW, "Fearing the actions of a god-like Super Hero left unchecked," +
+                " Gotham City’s own formidable," +
+                " forceful vigilante takes on Metropolis’s most revered," +
+                " modern-day savior, while the world wrestles with what sort of hero it really needs." +
+                " And with Batman and Superman at war with one another, a new threat quickly arises," +
+                " putting mankind in greater danger than it’s ever known before.");
+        testValues.put(MovieContract.MostPopular.COLUMN_POSTER_PATH, "/6bCplVkhowCjTHXWv49UjRPn0eK.jpg");
+        testValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE, "2016-03-23");
+        testValues.put(MovieContract.MostPopular.COLUMN_TITLE, "Batman v Superman: Dawn of Justice");
+        testValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, " 5.75");
+        return testValues;
+    }
+
+
     static class TestContentObserver extends ContentObserver {
         final HandlerThread mHT;
         boolean mContentChanged;

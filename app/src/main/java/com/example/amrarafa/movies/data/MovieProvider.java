@@ -36,16 +36,16 @@ public class MovieProvider extends ContentProvider {
 
 
 
-    private Cursor getMostPopularById(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getMostPopularById(Uri uri, String[] projection) {
 
 
-        String id = MovieContract.MostPopular.getIdUri(uri);
+        Long id = MovieContract.MostPopular.getIdUri(uri);
         String[] selectionArgs;
         String selection;
 
 
             selection = sMostPopularSelection;
-            selectionArgs = new String[]{id};
+            selectionArgs = new String[]{Long.toString(id)};
 
 
 
@@ -56,7 +56,7 @@ public class MovieProvider extends ContentProvider {
                 selectionArgs,
                 null,
                 null,
-                sortOrder
+                null
         );
     }
 
@@ -186,7 +186,7 @@ public class MovieProvider extends ContentProvider {
             }
 
             case MOST_PUPULAR_WITH_ID:{
-                retCursor = getMostPopularById(uri, projection, sortOrder);
+                retCursor = getMostPopularById(uri, projection);
                 break;
             }
 
@@ -320,7 +320,8 @@ public class MovieProvider extends ContentProvider {
                 db.beginTransaction();
                 try {
                     for (ContentValues value : values) {
-                        long _id = db.insert(MovieContract.MostPopular.TABLE_NAME, null, value);
+                        long _id = db.insertWithOnConflict(MovieContract.MostPopular.TABLE_NAME,
+                                null, value,SQLiteDatabase.CONFLICT_REPLACE);
                         if (_id != -1) {
                             returnCount++;
                         }
@@ -372,9 +373,9 @@ public class MovieProvider extends ContentProvider {
         matcher.addURI(authority, MovieContract.PATH_MOST_POPULAR, MOST_POPULAR);
         matcher.addURI(authority, MovieContract.PATH_HIGHEST_RATED, HIGHEST_RATED);
         matcher.addURI(authority, MovieContract.PATH_FAVOURITE, FAVOURITE);
-        matcher.addURI(authority, MovieContract.PATH_MOST_POPULAR + "/*", MOST_PUPULAR_WITH_ID);
-        matcher.addURI(authority, MovieContract.PATH_HIGHEST_RATED + "/*", HIGHEST_RATED_WITH_ID);
-        matcher.addURI(authority, MovieContract.PATH_FAVOURITE + "/*" , FAVOURITE_WITH_ID);
+        matcher.addURI(authority, MovieContract.PATH_MOST_POPULAR + "/#", MOST_PUPULAR_WITH_ID);
+        matcher.addURI(authority, MovieContract.PATH_HIGHEST_RATED + "/#", HIGHEST_RATED_WITH_ID);
+        matcher.addURI(authority, MovieContract.PATH_FAVOURITE + "/#" , FAVOURITE_WITH_ID);
         return matcher;
     }
 }
