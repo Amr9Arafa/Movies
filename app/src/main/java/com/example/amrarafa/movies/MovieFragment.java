@@ -79,10 +79,15 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     public void onStart() {
         super.onStart();
 
+        getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
+
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String movieType= prefs.getString(getActivity().getString(R.string.pref_movies_key),
-                getActivity().getString(R.string.pref_movies_default));
-        fetchUrl("popularity");
+                getActivity().getString(R.string.pref_movies_most_popular));
+
+        Log.d("yalla testing hoppa",movieType);
+        fetchUrl(movieType);
     }
 
     @Override
@@ -131,19 +136,7 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
             }
         });
 
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//
-//                MovieDetails movie =(MovieDetails)parent.getItemAtPosition(position);
-//                Intent intent=new Intent(getActivity(),DetailActivity.class);
-//                intent.putExtra("movieDetail",new MovieDetails(movie.getPosterPath(),movie.getTitle(),movie.getReleaseDate(),movie.getVoteAverage(),
-//                        movie.getOverview(),movie.getId()));
-//
-//                startActivity(intent);
-//            }
-//        });
+
 
         return rootView;
     }
@@ -158,8 +151,15 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String movieType= prefs.getString(getActivity().getString(R.string.pref_movies_key),
+                getActivity().getString(R.string.pref_movies_default));
 
+        Uri uri = MovieContract.MostPopular.CONTENT_URI;
+        if (movieType.equals("Highest Rated")) {
+            uri = MovieContract.HighestRated.CONTENT_URI;
+
+        }
         return new CursorLoader(getActivity(),
                 uri,
                 null,
@@ -179,12 +179,21 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     }
 
 
-    void fetchUrl(String movieListType){
+    void fetchUrl(final String movieListType){
 
-        RequestQueue requestQueue;
+        Log.d("asdasd",movieListType);
 
         String url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
-                +movieListType+".desc";
+                +"popularity"+".desc";
+
+        if (movieListType.equals("Highest Rated")) {
+
+            Log.d("yalla testing","7asal Hooo");
+            url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
+                    +"top_rated"+".desc";
+        }
+
+        RequestQueue requestQueue;
 
         requestQueue= Volley.newRequestQueue(getActivity());
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -194,7 +203,7 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                     public void onResponse(JSONObject response) {
 
 
-                        ParsingTask ps =new ParsingTask(getActivity());
+                        ParsingTask ps =new ParsingTask(getActivity(),movieListType);
                         ps.execute(response);
 
 

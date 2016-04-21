@@ -19,11 +19,15 @@ import java.util.Vector;
  */
 public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
 
-
     private final Context mContext;
+    private String mMovieType;
 
-    public ParsingTask(Context context){
+
+
+    public ParsingTask(Context context,String type){
         mContext=context;
+        mMovieType=type;
+
     }
 
     @Override
@@ -72,7 +76,16 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
                 if ( cVVector.size() > 0 ) {
                     ContentValues[] cvArray = new ContentValues[cVVector.size()];
                     cVVector.toArray(cvArray);
-                 inserted = mContext.getContentResolver().bulkInsert(MovieContract.MostPopular.CONTENT_URI, cvArray);
+
+                    if(mMovieType.equals("Most Popular")){
+
+                        inserted = mContext.getContentResolver().bulkInsert(MovieContract.MostPopular.CONTENT_URI, cvArray);
+                    }
+                    else if (mMovieType.equals("Highest Rated")){
+
+                        inserted = mContext.getContentResolver().bulkInsert(MovieContract.HighestRated.CONTENT_URI, cvArray);
+
+                    }
 
                 }
 

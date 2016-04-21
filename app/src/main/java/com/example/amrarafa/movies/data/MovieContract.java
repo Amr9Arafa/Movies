@@ -78,11 +78,11 @@ public class MovieContract {
 
         public static final String COLUMN_TITLE = "title";
 
-        public static final String COLUMN_POSTER_PATH = "poster path";
+        public static final String COLUMN_POSTER_PATH = "poster_path";
 
-        public static final String COLUMN_RELEASE_DATE = "release date";
+        public static final String COLUMN_RELEASE_DATE = "release_date";
 
-        public static final String COLUMN_VOTE_AVERAGE = "vote average";
+        public static final String COLUMN_VOTE_AVERAGE = "vote_average";
 
         public static final String COLUMN_ID = "id";
 
@@ -92,9 +92,8 @@ public class MovieContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static String getIdUri(Uri uri) {
-            return uri.getPathSegments().get(1);
-        }
+        public static Long getIdUri(Uri uri) {
+            return Long.parseLong(uri.getPathSegments().get(1));        }
 
     }
 
@@ -114,11 +113,11 @@ public class MovieContract {
 
         public static final String COLUMN_TITLE = "title";
 
-        public static final String COLUMN_POSTER_PATH = "poster path";
+        public static final String COLUMN_POSTER_PATH = "poster_path";
 
-        public static final String COLUMN_RELEASE_DATE = "release date";
+        public static final String COLUMN_RELEASE_DATE = "release_date";
 
-        public static final String COLUMN_VOTE_AVERAGE = "vote average";
+        public static final String COLUMN_VOTE_AVERAGE = "vote_average";
 
         public static final String COLUMN_ID = "id";
 
@@ -127,9 +126,10 @@ public class MovieContract {
         public static Uri buildIdUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
-        public static String getIdUri(Uri uri) {
-            return uri.getPathSegments().get(1);
-        }
+        public static Long getIdUri(Uri uri) {
+            return Long.parseLong(uri.getPathSegments().get(1));        }
+
+
 
     }
 }

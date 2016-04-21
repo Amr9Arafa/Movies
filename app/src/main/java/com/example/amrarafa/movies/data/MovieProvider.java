@@ -62,12 +62,12 @@ public class MovieProvider extends ContentProvider {
 
     private Cursor getHighestRatedById(Uri uri, String[] projection, String sortOrder) {
 
-        String id = MovieContract.HighestRated.getIdUri(uri);
+        Long id = MovieContract.HighestRated.getIdUri(uri);
         String[] selectionArgs;
         String selection;
 
         selection = sHighestRatedSelection;
-        selectionArgs = new String[]{id};
+        selectionArgs = new String[]{Long.toString(id)};
 
 
 
@@ -85,13 +85,13 @@ public class MovieProvider extends ContentProvider {
     private Cursor getFavouriteById(Uri uri, String[] projection, String sortOrder) {
 
 
-        String id = MovieContract.Favourite.getIdUri(uri);
+        Long id = MovieContract.Favourite.getIdUri(uri);
         String[] selectionArgs;
         String selection;
 
 
         selection = sFavouriteSelection;
-        selectionArgs = new String[]{id};
+        selectionArgs = new String[]{Long.toString(id)};
 
 
 

@@ -15,12 +15,12 @@ public class TestUtilities extends AndroidTestCase {
     static ContentValues createMostPopularValues() {
         // Create a new map of values, where column names are the keys
         ContentValues testValues = new ContentValues();
-        testValues.put(MovieContract.MostPopular.COLUMN_ID, "12345");
-        testValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW, "North Pole");
-        testValues.put(MovieContract.MostPopular.COLUMN_POSTER_PATH, "64.7488");
-        testValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE, "SDsawd dwadasdw");
-        testValues.put(MovieContract.MostPopular.COLUMN_TITLE, "SDsawd dwadasdw");
-        testValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, "SDsawd dwadasdw");
+        testValues.put(MovieContract.HighestRated.COLUMN_ID, "12345");
+        testValues.put(MovieContract.HighestRated.COLUMN_OVERVIEW, "North Pole");
+        testValues.put(MovieContract.HighestRated.COLUMN_POSTER_PATH, "64.7488");
+        testValues.put(MovieContract.HighestRated.COLUMN_RELEASE_DATE, "SDsawd dwadasdw");
+        testValues.put(MovieContract.HighestRated.COLUMN_TITLE, "SDsawd dwadasdw");
+        testValues.put(MovieContract.HighestRated.COLUMN_VOTE_AVERAGE, "SDsawd dwadasdw");
         return testValues;
     }
 
