@@ -31,17 +31,17 @@ public class MoviesDbHelper extends SQLiteOpenHelper{
                 MostPopular.COLUMN_POSTER_PATH + "  TEXT NOT NULL, " +
                 MostPopular.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +
                 MostPopular.COLUMN_TITLE + "  TEXT NOT NULL, " +
-                MostPopular.COLUMN_VOTE_AVERAGE + "  TEXT NOT NULL " +
+                MostPopular.COLUMN_VOTE_AVERAGE + "  REAL NOT NULL " +
                 " );";
 
         final String SQL_CREATE_HIGHEST_Rated_TABLE = "CREATE TABLE " + HighestRated.TABLE_NAME + " (" +
-                HighestRated._ID + " INTEGER PRIMARY KEY," +
-                HighestRated.COLUMN_ID + " INTEGER UNIQUE NOT NULL, " +
-                HighestRated.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
-                HighestRated.COLUMN_POSTER_PATH + " TEXT NOT NULL, " +
-                HighestRated.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +
-                HighestRated.COLUMN_TITLE + "  TEXT NOT NULL, " +
-                HighestRated.COLUMN_VOTE_AVERAGE + "REAL NOT NULL " +
+                MostPopular._ID + " INTEGER PRIMARY KEY," +
+                MostPopular.COLUMN_ID + " INTEGER UNIQUE NOT NULL, " +
+                MostPopular.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+                MostPopular.COLUMN_POSTER_PATH + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_TITLE + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_VOTE_AVERAGE + "  REAL NOT NULL " +
                 " );";
 
 

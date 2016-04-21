@@ -182,100 +182,100 @@ public class TestDb extends AndroidTestCase {
     }
 
 
-    public void testHighestRatedTable(){
-
-
-        MoviesDbHelper dbHelper = new MoviesDbHelper(mContext);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        // Second Step: Create ContentValues of what you want to insert
-        // (you can use the createNorthPoleLocationValues if you wish)
-        ContentValues testValues = TestUtilities.createRealMostPopularValues();
-
-        // Third Step: Insert ContentValues into database and get a row ID back
-        long locationRowId;
-        locationRowId = db.insert(MovieContract.HighestRated.TABLE_NAME, null, testValues);
-
-        // Verify we got a row back.
-        assertTrue(locationRowId != -1);
-
-        Cursor cursor = db.query(
-                MovieContract.HighestRated.TABLE_NAME,  // Table to Query
-                null, // all columns
-                null, // Columns for the "where" clause
-                null, // Values for the "where" clause
-                null, // columns to group by
-                null, // columns to filter by row groups
-                null // sort order
-        );
-
-        // Move the cursor to a valid database row and check to see if we got any records back
-        // from the query
-        assertTrue("Error: No Records returned from Most popular query", cursor.moveToFirst());
-
-        cursor.close();
-
-
-
-
-
-
-
-
-
-        ContentValues realTestValues = TestUtilities.createRealMostPopularValues();
-
-        // Third Step: Insert ContentValues into database and get a row ID back
-        long locationRowId1;
-        locationRowId1 = db.insert(MovieContract.MostPopular.TABLE_NAME, null, realTestValues);
-
-        assertTrue(locationRowId1 != -1);
-
-        Uri uri= MovieContract.MostPopular.buildIdUri(209112L);
-
-        Cursor providerCursor= mContext.getContentResolver().query(uri, null, null, null, null);
-
-        assertTrue("Error: No Records returned from Most popular query", (providerCursor.moveToFirst())
-                && (providerCursor.getCount() >= 1)
-                && (providerCursor!= null));
-
-        String id=providerCursor.getString(providerCursor.getColumnIndex(MovieContract.MostPopular
-                .COLUMN_POSTER_PATH));
-
-        Log.d("hello yalla testing", id);
-
-//        String[] selectionArgs;
-//
-//         String sMostPopularSelection =
-//                MovieContract.MostPopular.TABLE_NAME +
-//                        "." + MovieContract.MostPopular.COLUMN_ID + " = ? ";
-//
-//        selectionArgs = new String[]{Long.toString(209112L)};
-//
-//        Cursor realCursor = db.query(
-//                MovieContract.MostPopular.TABLE_NAME,
-//                null,
-//                sMostPopularSelection,
-//                selectionArgs,
-//                null,
-//                null,
-//                null);
+//    public void testHighestRatedTable(){
 //
 //
-//        realCursor.moveToNext();
-//       int id1=realCursor.getInt (realCursor.getColumnIndex(MovieContract.MostPopular
-//                .COLUMN_ID));
+//        MoviesDbHelper dbHelper = new MoviesDbHelper(mContext);
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
 //
-//        Log.d("hello yalla testing",String.valueOf(id1));
+//        // Second Step: Create ContentValues of what you want to insert
+//        // (you can use the createNorthPoleLocationValues if you wish)
+//        ContentValues testValues = TestUtilities.createRealMostPopularValues();
+//
+//        // Third Step: Insert ContentValues into database and get a row ID back
+//        long locationRowId;
+//        locationRowId = db.insert(MovieContract.HighestRated.TABLE_NAME, null, testValues);
+//
+//        // Verify we got a row back.
+//        assertTrue(locationRowId != -1);
+//
+//        Cursor cursor = db.query(
+//                MovieContract.HighestRated.TABLE_NAME,  // Table to Query
+//                null, // all columns
+//                null, // Columns for the "where" clause
+//                null, // Values for the "where" clause
+//                null, // columns to group by
+//                null, // columns to filter by row groups
+//                null // sort order
+//        );
+//
+//        // Move the cursor to a valid database row and check to see if we got any records back
+//        // from the query
+//        assertTrue("Error: No Records returned from Most popular query", cursor.moveToFirst());
+//
+//        cursor.close();
 //
 //
-//        assertTrue("Error: No Records returned from Most popular query", (realCursor.moveToFirst())
-//                && (realCursor.getCount() >= 1)
-//                && (realCursor != null));
-//        realCursor.close();
-        providerCursor.close();
-        db.close();
-    }
+//
+//
+//
+//
+//
+//
+//
+//        ContentValues realTestValues = TestUtilities.createRealMostPopularValues();
+//
+//        // Third Step: Insert ContentValues into database and get a row ID back
+//        long locationRowId1;
+//        locationRowId1 = db.insert(MovieContract.MostPopular.TABLE_NAME, null, realTestValues);
+//
+//        assertTrue(locationRowId1 != -1);
+//
+//        Uri uri= MovieContract.MostPopular.buildIdUri(209112L);
+//
+//        Cursor providerCursor= mContext.getContentResolver().query(uri, null, null, null, null);
+//
+//        assertTrue("Error: No Records returned from Most popular query", (providerCursor.moveToFirst())
+//                && (providerCursor.getCount() >= 1)
+//                && (providerCursor!= null));
+//
+//        String id=providerCursor.getString(providerCursor.getColumnIndex(MovieContract.MostPopular
+//                .COLUMN_POSTER_PATH));
+//
+//        Log.d("hello yalla testing", id);
+//
+////        String[] selectionArgs;
+////
+////         String sMostPopularSelection =
+////                MovieContract.MostPopular.TABLE_NAME +
+////                        "." + MovieContract.MostPopular.COLUMN_ID + " = ? ";
+////
+////        selectionArgs = new String[]{Long.toString(209112L)};
+////
+////        Cursor realCursor = db.query(
+////                MovieContract.MostPopular.TABLE_NAME,
+////                null,
+////                sMostPopularSelection,
+////                selectionArgs,
+////                null,
+////                null,
+////                null);
+////
+////
+////        realCursor.moveToNext();
+////       int id1=realCursor.getInt (realCursor.getColumnIndex(MovieContract.MostPopular
+////                .COLUMN_ID));
+////
+////        Log.d("hello yalla testing",String.valueOf(id1));
+////
+////
+////        assertTrue("Error: No Records returned from Most popular query", (realCursor.moveToFirst())
+////                && (realCursor.getCount() >= 1)
+////                && (realCursor != null));
+////        realCursor.close();
+//        providerCursor.close();
+//        db.close();
+//    }
 
 
 }
