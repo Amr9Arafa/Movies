@@ -125,9 +125,22 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                 if (cursor != null) {
 
                     Intent intent=new Intent(getActivity(),DetailActivity.class);
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    String movieType= prefs.getString(getActivity().getString(R.string.pref_movies_key),
+                            getActivity().getString(R.string.pref_movies_most_popular));
+
+
                     Uri uri = MovieContract.MostPopular.buildIdUri(cursor.getLong(cursor.getColumnIndex(
                             MovieContract.MostPopular.COLUMN_ID
                     )));
+
+                    if (movieType.equals("Highest Rated")){
+
+                         uri = MovieContract.HighestRated.buildIdUri(cursor.getLong(cursor.getColumnIndex(
+                                MovieContract.HighestRated.COLUMN_ID
+                        )));
+                    }
                     intent.setData(uri);
 
                     startActivity(intent);
