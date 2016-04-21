@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/movies_type"
-        android:title="Sort Movies By"
+        android:title="@string/action_sortBy"
         app:showAsAction="never" />
 </menu>

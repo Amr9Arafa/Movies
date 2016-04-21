@@ -2,10 +2,12 @@ package com.example.amrarafa.movies;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +68,8 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
         int id = item.getItemId();
         if (id == R.id.movies_type) {
 
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -74,6 +78,10 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     @Override
     public void onStart() {
         super.onStart();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String movieType= prefs.getString(getActivity().getString(R.string.pref_movies_key),
+                getActivity().getString(R.string.pref_movies_default));
         fetchUrl("popularity");
     }
 
