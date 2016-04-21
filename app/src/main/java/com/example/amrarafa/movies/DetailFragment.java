@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.amrarafa.movies.data.MovieContract;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by amr arafa on 4/20/2016.
@@ -40,13 +42,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(activity.getResources().getColor(R.color.colorCustom));
-        Intent intent=getActivity().getIntent();
 
 //            textView=(TextView)rootView.findViewById(R.id.testText);
 //
@@ -100,6 +101,20 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         TextView detailTextView = (TextView)getView().findViewById(R.id.testText);
         detailTextView.setText(data.getString(data.getColumnIndex(MovieContract.MostPopular.COLUMN_OVERVIEW)));
+        ImageView imageView=(ImageView)getView().findViewById(R.id.imageViewDetailFragment);
+        TextView titleTextView=(TextView)getView().findViewById(R.id.titleID);
+
+        String title= data.getString(data.getColumnIndex(MovieContract.MostPopular
+        .COLUMN_TITLE));
+        titleTextView.setText(title);
+
+        String poster_path=data.getString(data.getColumnIndex(MovieContract.
+                MostPopular.COLUMN_POSTER_PATH));
+
+        Picasso.with(getActivity())
+                .load(poster_path)
+                .fit()
+                .into(imageView);
 
 
     }

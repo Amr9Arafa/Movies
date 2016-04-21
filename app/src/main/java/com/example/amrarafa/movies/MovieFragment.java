@@ -44,6 +44,13 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Add this line in order for this fragment to handle menu events.
+        setHasOptionsMenu(true);
+    }
+    
+    @Override
     public void onStart() {
         super.onStart();
         fetchUrl("popularity");

@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorCustom">#000000</color>
     <color name="colorToolbar">#313131</color>
+    <color name="colorTextWhite">#FFFFFFFF</color>
+    <color name="colorTurqouise">#FF00B9BF</color>
 </resources>
