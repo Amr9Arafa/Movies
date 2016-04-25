@@ -29,6 +29,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     //        TextView textView;
     private static final int DETAIL_LOADER = 1;
 
+
+
     public DetailFragment() {
         setHasOptionsMenu(true);
     }

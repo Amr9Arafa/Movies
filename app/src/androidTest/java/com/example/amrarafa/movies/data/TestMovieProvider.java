@@ -23,13 +23,13 @@ public class TestMovieProvider extends AndroidTestCase {
                 null
         );
         mContext.getContentResolver().delete(
-                MovieContract.MostPopular.CONTENT_URI,
+                MovieContract.HighestRated.CONTENT_URI,
                 null,
                 null
         );
 
         Cursor cursor = mContext.getContentResolver().query(
-                MovieContract.MostPopular.CONTENT_URI,
+                MovieContract.Favourite.CONTENT_URI,
                 null,
                 null,
                 null,

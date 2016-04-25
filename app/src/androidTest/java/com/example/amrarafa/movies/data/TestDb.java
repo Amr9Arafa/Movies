@@ -242,7 +242,7 @@ public class TestDb extends AndroidTestCase {
 //        String id=providerCursor.getString(providerCursor.getColumnIndex(MovieContract.MostPopular
 //                .COLUMN_POSTER_PATH));
 //
-//        Log.d("hello yalla testing", id);
+//        Log.d("testing aho mn elTestDb", id);
 //
 ////        String[] selectionArgs;
 ////
