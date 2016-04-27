@@ -46,13 +46,13 @@ public class MoviesDbHelper extends SQLiteOpenHelper{
 
 
         final String SQL_CREATE_Favourite_TABLE = "CREATE TABLE " + Favourite.TABLE_NAME + " (" +
-                Favourite._ID + " INTEGER PRIMARY KEY," +
-                Favourite.COLUMN_ID + " INTEGER UNIQUE NOT NULL, " +
-                Favourite.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
-                Favourite.COLUMN_POSTER_PATH + "  TEXT NOT NULL, " +
-                Favourite.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +
-                Favourite.COLUMN_TITLE + "  TEXT NOT NULL, " +
-                Favourite.COLUMN_VOTE_AVERAGE + "  REAL NOT NULL " +
+                MostPopular._ID + " INTEGER PRIMARY KEY," +
+                MostPopular.COLUMN_ID + " INTEGER UNIQUE NOT NULL, " +
+                MostPopular.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+                MostPopular.COLUMN_POSTER_PATH + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_RELEASE_DATE + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_TITLE + "  TEXT NOT NULL, " +
+                MostPopular.COLUMN_VOTE_AVERAGE + "  REAL NOT NULL " +
                 " );";
 
         db.execSQL(SQL_CREATE_MOST_POPULAR_TABLE);

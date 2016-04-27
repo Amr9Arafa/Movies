@@ -141,6 +141,13 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                                 MovieContract.HighestRated.COLUMN_ID
                         )));
                     }
+
+                    else if(movieType.equals("Favourite")){
+
+                        uri = MovieContract.Favourite.buildIdUri(cursor.getLong(cursor.getColumnIndex(
+                                MovieContract.HighestRated.COLUMN_ID
+                        )));
+                    }
                     intent.setData(uri);
 
                     startActivity(intent);
@@ -172,6 +179,9 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
         if (movieType.equals("Highest Rated")) {
             uri = MovieContract.HighestRated.CONTENT_URI;
 
+        }
+        else if(movieType.equals("Favourite")){
+            uri=MovieContract.Favourite.CONTENT_URI;
         }
         return new CursorLoader(getActivity(),
                 uri,

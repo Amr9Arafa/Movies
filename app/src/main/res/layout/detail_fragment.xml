@@ -49,9 +49,9 @@
                     android:paddingLeft="16dp">
 
                     <TextView
+                        android:id="@+id/dateTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="2015"
                         android:textSize="20dp"
                         />
                     <TextView
@@ -62,16 +62,16 @@
                         android:paddingTop="8dp"
                         />
                     <TextView
+                        android:id="@+id/voteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="8.1/10"
                         android:paddingTop="8dp"
                         android:textSize="16dp"
                         android:textColor="@color/colorToolbar"/>
                     <Button
+                        android:id="@+id/favouriteButton"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
-                        android:text="MARK AS FAVOURITE"
                         android:background="@color/colorTurqouise"
                         android:layout_marginTop="22dp"
                         android:clickable="true" />
@@ -115,10 +115,12 @@
 
 
                     <ImageButton
+                        android:id="@+id/btn1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/abc_btn_check_to_on_mtrl_015"
-                        android:layout_marginLeft="8dp"/>
+                        android:src="@drawable/bt_play_gran"
+                        android:layout_marginLeft="8dp"
+                        android:background="#80ffffff"/>
                     <TextView
                         android:paddingLeft="20dp"
                         android:layout_width="wrap_content"
@@ -149,10 +151,13 @@
                 android:layout_marginLeft="8dp">
 
                 <ImageButton
+                    android:id="@+id/btn2"
                     android:layout_width="wrap_content"
+                    android:padding="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/abc_btn_check_to_on_mtrl_015"
-                    android:layout_marginLeft="8dp"/>
+                    android:src="@drawable/bt_play_gran"
+                    android:layout_marginLeft="8dp"
+                    android:background="#80ffffff" />
                 <TextView
                     android:paddingLeft="20dp"
                     android:paddingTop="12dp"

@@ -67,12 +67,12 @@ public class TestDb extends AndroidTestCase {
 
         // Build a HashSet of all of the column names we want to look for
         final HashSet<String> locationColumnHashSet = new HashSet<String>();
-        locationColumnHashSet.add(MovieContract.HighestRated._ID);
-        locationColumnHashSet.add(MovieContract.HighestRated.COLUMN_OVERVIEW);
-        locationColumnHashSet.add(MovieContract.HighestRated.COLUMN_POSTER_PATH);
-        locationColumnHashSet.add(MovieContract.HighestRated.COLUMN_RELEASE_DATE);
-        locationColumnHashSet.add(MovieContract.HighestRated.COLUMN_TITLE);
-        locationColumnHashSet.add(MovieContract.HighestRated.COLUMN_VOTE_AVERAGE);
+        locationColumnHashSet.add(MovieContract.Favourite._ID);
+        locationColumnHashSet.add(MovieContract.Favourite.COLUMN_OVERVIEW);
+        locationColumnHashSet.add(MovieContract.Favourite.COLUMN_POSTER_PATH);
+        locationColumnHashSet.add(MovieContract.Favourite.COLUMN_RELEASE_DATE);
+        locationColumnHashSet.add(MovieContract.Favourite.COLUMN_TITLE);
+        locationColumnHashSet.add(MovieContract.Favourite.COLUMN_VOTE_AVERAGE);
         int columnNameIndex = c.getColumnIndex("name");
         do {
             String columnName = c.getString(columnNameIndex);
@@ -98,13 +98,13 @@ public class TestDb extends AndroidTestCase {
 
         // Third Step: Insert ContentValues into database and get a row ID back
         long locationRowId;
-        locationRowId = db.insert(MovieContract.MostPopular.TABLE_NAME, null, testValues);
+        locationRowId = db.insert(MovieContract.Favourite.TABLE_NAME, null, testValues);
 
         // Verify we got a row back.
         assertTrue(locationRowId != -1);
 
         Cursor cursor = db.query(
-                MovieContract.MostPopular.TABLE_NAME,  // Table to Query
+                MovieContract.Favourite.TABLE_NAME,  // Table to Query
                 null, // all columns
                 null, // Columns for the "where" clause
                 null, // Values for the "where" clause
