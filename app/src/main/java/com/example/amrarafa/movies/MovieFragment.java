@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -46,6 +45,13 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
 
     public MovieFragment() {
         // Required empty public constructor
+    }
+
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri movieUri);
     }
 
     @Override
@@ -148,9 +154,11 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                                 MovieContract.HighestRated.COLUMN_ID
                         )));
                     }
-                    intent.setData(uri);
 
-                    startActivity(intent);
+                    ((Callback) getActivity()).onItemSelected(uri);
+                   /* intent.setData(uri);
+
+                    startActivity(intent);*/
                 }
 
             }

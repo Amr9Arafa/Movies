@@ -47,6 +47,11 @@ import java.net.URI;
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
+
+    static final String DETAIL_URI = "URI";
+
+    private Uri mUri;
+
     private static final int DETAIL_LOADER = 1;
     private static final int FAVOURITE_LOADER=2;
     public String mMovieTrailerId1 =null;
@@ -70,17 +75,24 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onStart() {
 
-        Intent intent =getActivity().getIntent();
-        Uri uri=intent.getData();
-        Long id= MovieContract.MostPopular.getIdUri(uri);
-        fetchUrl(String.valueOf(id));
+//        Intent intent =getActivity().getIntent();
+//        Uri uri=intent.getData();
 
+        if(null!=mUri) {
+        Long id= MovieContract.MostPopular.getIdUri(mUri);
+        fetchUrl(String.valueOf(id));
+        }
         super.onStart();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
+        }
 
         View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
 
@@ -99,7 +111,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(activity.getResources().getColor(R.color.colorCustom));
+//        window.setStatusBarColor(activity.getResources().getColor(R.color.colorCustom));
 
         ImageButton btn1= (ImageButton)rootView.findViewById(R.id.btn1);
         ImageButton btn2= (ImageButton)rootView.findViewById(R.id.btn2);
@@ -162,39 +174,47 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Intent intent = getActivity().getIntent();
-        Uri uri=intent.getData();
-        Long movieId= MovieContract.MostPopular.getIdUri(uri);
-        Uri favouriteUri=MovieContract.Favourite.buildIdUri(movieId);
+//        Intent intent = getActivity().getIntent();
+//        Uri uri=intent.getData();
+        Uri uri=mUri;
+        if (null!=mUri) {
 
 
+            Long movieId = MovieContract.MostPopular.getIdUri(uri);
+            Uri favouriteUri = MovieContract.Favourite.buildIdUri(movieId);
 
-        if (intent == null) {
-            return null;
-        }
 
-        if (id==1){
+//        if (intent == null) {
+//            return null;
+//        }
+
+            if (id == 1) {
+                return new CursorLoader(
+                        getActivity(),
+                        uri,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+
+            }
+
             return new CursorLoader(
                     getActivity(),
-                    uri,
+                    favouriteUri,
                     null,
                     null,
                     null,
                     null
             );
+        }
+        else {
+
+            return null;
 
         }
 
-        return new CursorLoader(
-                getActivity(),
-                favouriteUri,
-                null,
-                null,
-                null,
-                null
-        );
-        // Now create and return a CursorLoader that will take care of
-        // creating a Cursor for the data being displayed.
 
     }
 
