@@ -32,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.amrarafa.movies.data.MovieContract;
 
 import android.support.v4.app.LoaderManager;
+import android.widget.ProgressBar;
 
 import org.json.JSONObject;
 
@@ -41,6 +42,7 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     private static final int MOVIE_LOADER = 1;
 
     MovieCursorAdapter mMovieAdapter;
+
 
 
     public MovieFragment() {
@@ -93,7 +95,8 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                 getActivity().getString(R.string.pref_movies_most_popular));
 
         Log.d("yalla testing hoppa",movieType);
-        fetchUrl(movieType);
+//        fetchUrl(movieType);
+        Fetch.fetchUrl(movieType,getActivity());
     }
 
     @Override
@@ -102,15 +105,8 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        Window window = activity.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(activity.getResources().getColor(R.color.colorCustom));
+
 
 
 
@@ -129,8 +125,6 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
 
                 if (cursor != null) {
-
-                    Intent intent=new Intent(getActivity(),DetailActivity.class);
 
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     String movieType= prefs.getString(getActivity().getString(R.string.pref_movies_key),
@@ -156,9 +150,7 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                     }
 
                     ((Callback) getActivity()).onItemSelected(uri);
-                   /* intent.setData(uri);
 
-                    startActivity(intent);*/
                 }
 
             }
@@ -199,8 +191,11 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
                 null);
     }
 
+
+
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+
         mMovieAdapter.swapCursor(cursor);
     }
 
@@ -220,6 +215,7 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
         if (movieListType.equals("Highest Rated")) {
 
             Log.d("yalla testing","7asal Hooo");
+
             url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
                     +"top_rated"+".desc";
         }

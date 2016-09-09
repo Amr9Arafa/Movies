@@ -38,8 +38,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
-
 /**
  * Created by amr arafa on 4/20/2016.
  */
@@ -75,9 +73,6 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onStart() {
 
-//        Intent intent =getActivity().getIntent();
-//        Uri uri=intent.getData();
-
         if(null!=mUri) {
         Long id= MovieContract.MostPopular.getIdUri(mUri);
         fetchUrl(String.valueOf(id));
@@ -94,6 +89,11 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             mUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
         }
 
+        if (mUri==null){
+            return  inflater.inflate(R.layout.empty_layout, container, false);
+
+        }
+
         View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
 
         mOverViewTextView = (TextView)rootView.findViewById(R.id.testText);
@@ -103,15 +103,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         mVoteTextView=(TextView)rootView.findViewById(R.id.voteTextView);
         mFavouriteButton=(Button)rootView.findViewById(R.id.favouriteButton);
 
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.my_toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Window window = activity.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.setStatusBarColor(activity.getResources().getColor(R.color.colorCustom));
 
         ImageButton btn1= (ImageButton)rootView.findViewById(R.id.btn1);
         ImageButton btn2= (ImageButton)rootView.findViewById(R.id.btn2);
@@ -174,19 +166,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-//        Intent intent = getActivity().getIntent();
-//        Uri uri=intent.getData();
         Uri uri=mUri;
         if (null!=mUri) {
 
 
             Long movieId = MovieContract.MostPopular.getIdUri(uri);
             Uri favouriteUri = MovieContract.Favourite.buildIdUri(movieId);
-
-
-//        if (intent == null) {
-//            return null;
-//        }
 
             if (id == 1) {
                 return new CursorLoader(
@@ -214,11 +199,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             return null;
 
         }
-
-
     }
-
-
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
@@ -247,55 +228,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                     .load(poster_path)
                     .fit()
                     .into(mImageView);
-
-
-
-
-
         }
 
-
-
-       else if(loader.getId()==2){
+        else if(loader.getId()==2){
             if (!data.moveToFirst()){
 
                 isItFavourite=1;//not in favourite
                 mFavouriteButton.setText("MARK AS FAVOURITE");
-
-//                Intent intent=getActivity().getIntent();
-//                Uri uri=intent.getData();
-//                Long id= MovieContract.MostPopular.getIdUri(uri);
-//                Uri favouriteUri=MovieContract.Favourite.buildIdUri(id);
-//                mFavouriteButton.setText("MARK AS FAVOURITE");
-//                ContentValues movieValues = new ContentValues();
-//                MoviesDbHelper dbHelper = new MoviesDbHelper(getActivity());
-//                SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_POSTER_PATH, "http://image.tmdb.org/t/p/w185/" +
-//                        mCursor.getString(
-//                        mCursor.getColumnIndex(MovieContract.MostPopular.COLUMN_POSTER_PATH)));
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_ID,mCursor.getInt(mCursor.getColumnIndex(
-//                        MovieContract.MostPopular.COLUMN_ID)));
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_OVERVIEW, mCursor.getString(
-//                        mCursor.getColumnIndex(MovieContract.MostPopular.COLUMN_OVERVIEW)));
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_RELEASE_DATE, mCursor.getString(
-//                        mCursor.getColumnIndex(MovieContract.MostPopular.COLUMN_RELEASE_DATE)));
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_TITLE, mCursor.getString(
-//                        mCursor.getColumnIndex(MovieContract.MostPopular.COLUMN_TITLE)));
-//
-//                movieValues.put(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE, mCursor.getDouble(
-//                        mCursor.getColumnIndex(MovieContract.MostPopular.COLUMN_VOTE_AVERAGE)));
-//
-//
-//                Uri testUri = getActivity().getContentResolver().insert(favouriteUri,movieValues);
-//                Toast.makeText(getActivity(),""+testUri.toString(),Toast.LENGTH_LONG).show();
-
-
 
             }else {
                 isItFavourite=2;//in favoyrite table

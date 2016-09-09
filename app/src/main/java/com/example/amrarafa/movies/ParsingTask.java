@@ -24,9 +24,11 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
 
 
 
+
     public ParsingTask(Context context,String type){
         mContext=context;
         mMovieType=type;
+
 
     }
 
@@ -39,6 +41,7 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
         final String voteAverage="vote_average";
         final String overview="overview";
         int id;
+
 
 
 
@@ -71,6 +74,13 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
                 cVVector.add(movieValues);
             }
 
+//            if ( cVVector.size() > 0 ){
+//
+//                insert(cVVector);
+//
+//
+//            }
+
                 int inserted = 0;
                 // add to database
                 if ( cVVector.size() > 0 ) {
@@ -81,24 +91,32 @@ public class ParsingTask extends AsyncTask<JSONObject, Void, Void> {
 
                         inserted = mContext.getContentResolver().bulkInsert(MovieContract.MostPopular.CONTENT_URI, cvArray);
                     }
+
                     else if (mMovieType.equals("Highest Rated")){
 
                         inserted = mContext.getContentResolver().bulkInsert(MovieContract.HighestRated.CONTENT_URI, cvArray);
-
                     }
 
                 }
-
-
-                Log.d("hello testing", "FetchWeatherTask Complete. " + inserted + " Inserted");
-
-                // Log.w("testing id", id + "\n");
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return null;
     }
+//
+
+//    private void insert(Vector<ContentValues> cVVector) {
+//
+//        Insert insert=new Insert(cVVector,mMovieType,mContext);
+//        ((Callback) this).onParsingFinished(insert);
+//    }
+
+//    public interface Callback {
+//
+//         void onParsingFinished(Insert insert);
+//    }
 
 }

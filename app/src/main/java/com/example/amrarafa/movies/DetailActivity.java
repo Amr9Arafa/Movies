@@ -63,10 +63,6 @@ public class DetailActivity extends AppCompatActivity {
 
      //   String data = getIntent().getDataString();
        // tv.setText(data);
-
-
-
-
     }
 
 
