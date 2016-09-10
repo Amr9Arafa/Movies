@@ -19,7 +19,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".DetailActivity"
@@ -43,7 +42,7 @@
             android:name=".data.MovieProvider"
             android:authorities="com.example.amrarafa.movies.app" />
 
-
+        <activity android:name=".DataActivity"></activity>
     </application>
 
 </manifest>

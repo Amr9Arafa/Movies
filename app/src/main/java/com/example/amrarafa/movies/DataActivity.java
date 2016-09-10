@@ -1,50 +1,43 @@
 package com.example.amrarafa.movies;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.amrarafa.movies.data.MovieContract;
 
 import org.json.JSONObject;
 
-public abstract class DataFragment extends android.support.v4.app.Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class  DataActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+
+    private LoaderManager.LoaderCallbacks<Cursor> mCallbacks;
     private static final int MOVIE_LOADER = 1;
     Cursor mCursor;
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCallbacks=this;
+        getLoaderManager().initLoader(MOVIE_LOADER, null, mCallbacks);
 
 
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
-        super.onActivityCreated(savedInstanceState);
-    }
-
-
-
     protected void fetchUrl(){
 
         String type=getParams();
-        Fetch fetch=new Fetch(type, getActivity(), new Fetch.OnFinishedFetching() {
+        Fetch fetch=new Fetch(type, this, new Fetch.OnFinishedFetching() {
             @Override
             public void onFinishedFeching(Context context, String movieListType, JSONObject response) {
-                ParsingTask ps =new ParsingTask(getActivity(),movieListType);
-                        ps.execute(response);
+                ParsingTask ps =new ParsingTask(DataActivity.this,movieListType);
+                ps.execute(response);
             }
         });
-
         getLoaderManager().restartLoader(MOVIE_LOADER, null,this);
 
 
@@ -52,8 +45,6 @@ public abstract class DataFragment extends android.support.v4.app.Fragment imple
     }
 
     public abstract String getParams();
-
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -68,7 +59,7 @@ public abstract class DataFragment extends android.support.v4.app.Fragment imple
         else if(getParams().equals("Favourite")){
             uri=MovieContract.Favourite.CONTENT_URI;
         }
-        return new CursorLoader(getActivity(),
+        return new CursorLoader(this,
                 uri,
                 null,
                 null,
@@ -82,13 +73,13 @@ public abstract class DataFragment extends android.support.v4.app.Fragment imple
         mCursor=cursor;
         if (!(mCursor.moveToFirst()) || mCursor.getCount() ==0){
             //cursor is empty
-            ((Callback) this).onError();
+            ((OnDataReady) this).onError();
 
         }
         else {
 
 
-            ((Callback) this).onDataFetched(mCursor);
+            ((OnDataReady) this).onDataFetched(mCursor);
         }
     }
 
@@ -96,12 +87,12 @@ public abstract class DataFragment extends android.support.v4.app.Fragment imple
     public void onLoaderReset(
             Loader<Cursor> cursorLoader) {
         mCursor=null;
-        ((Callback) this).onDataFetched(mCursor);
+        ((OnDataReady) this).onDataFetched(mCursor);
 
     }
 
 
-    public interface Callback {
+    public interface OnDataReady {
 
         void onDataFetched(Cursor cursor);
         void onError();

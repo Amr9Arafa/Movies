@@ -18,9 +18,18 @@ import org.json.JSONObject;
 public class Fetch {
 
    private static Context mContext;
+    private OnFinishedFetching mCallBack =null;
 
-    public static void fetchUrl(final String movieListType,Context context){
+    public Fetch(String movieListType,Context context,OnFinishedFetching listener){
+        mCallBack =listener;
+        fetchUrl(movieListType,context);
+
+    }
+
+
+    public  void fetchUrl(final String movieListType,Context context){
         mContext =context;
+
 
         Log.d("asdasd",movieListType);
 
@@ -44,11 +53,13 @@ public class Fetch {
                     public void onResponse(JSONObject response) {
 
 
-                        ParsingTask ps =new ParsingTask(mContext,movieListType);
-                        ps.execute(response);
+//                        ParsingTask ps =new ParsingTask(mContext,movieListType);
+//                        ps.execute(response);
 
-//                        (OnFinishedFetching) mContext).onFinishedFeching(mContext,movieListType,response);
+
+                        mCallBack.onFinishedFeching(mContext,movieListType,response);
                         Log.w("Testing",response.toString());
+
                     }
                 }, new Response.ErrorListener() {
 

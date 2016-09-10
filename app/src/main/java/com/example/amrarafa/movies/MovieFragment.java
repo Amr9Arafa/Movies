@@ -1,6 +1,7 @@
 package com.example.amrarafa.movies;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -96,7 +97,17 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
 
         Log.d("yalla testing hoppa",movieType);
 //        fetchUrl(movieType);
-        Fetch.fetchUrl(movieType,getActivity());
+
+//        new Fetch().fetchUrl(movieType,getActivity());
+        Fetch f= new Fetch(movieType, getActivity(), new Fetch.OnFinishedFetching() {
+            @Override
+            public void onFinishedFeching(Context context, String movieListType, JSONObject response) {
+                Log.d("TestTest","ma32oola geina hena");
+                        ParsingTask ps =new ParsingTask(getActivity(),movieListType);
+                        ps.execute(response);
+            }
+        });
+
     }
 
     @Override
@@ -205,49 +216,49 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Lo
     }
 
 
-    void fetchUrl(final String movieListType){
-
-        Log.d("asdasd",movieListType);
-
-        String url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
-                +"popularity"+".desc";
-
-        if (movieListType.equals("Highest Rated")) {
-
-            Log.d("yalla testing","7asal Hooo");
-
-            url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
-                    +"top_rated"+".desc";
-        }
-
-        RequestQueue requestQueue;
-
-        requestQueue= Volley.newRequestQueue(getActivity());
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-
-                        ParsingTask ps =new ParsingTask(getActivity(),movieListType);
-                        ps.execute(response);
-
-
-                        Log.w("Testing",response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-                        Log.v("myApp","yallaa"+error.toString());
-                    }
-                });
-
-        Volley.newRequestQueue(getActivity()).add(jsObjRequest);
-
-    }
+//    void fetchUrl(final String movieListType){
+//
+//        Log.d("asdasd",movieListType);
+//
+//        String url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
+//                +"popularity"+".desc";
+//
+//        if (movieListType.equals("Highest Rated")) {
+//
+//            Log.d("yalla testing","7asal Hooo");
+//
+//            url="https://api.themoviedb.org/3/discover/movie?api_key=19dfd5ebe589153dc9d6788c7c9f347b&sort_by="
+//                    +"top_rated"+".desc";
+//        }
+//
+//        RequestQueue requestQueue;
+//
+//        requestQueue= Volley.newRequestQueue(getActivity());
+//        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+//                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//
+//
+//                        ParsingTask ps =new ParsingTask(getActivity(),movieListType);
+//                        ps.execute(response);
+//
+//
+//                        Log.w("Testing",response.toString());
+//                    }
+//                }, new Response.ErrorListener() {
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // TODO Auto-generated method stub
+//                        Log.v("myApp","yallaa"+error.toString());
+//                    }
+//                });
+//
+//        Volley.newRequestQueue(getActivity()).add(jsObjRequest);
+//
+//    }
 
 
 
